@@ -1,0 +1,9 @@
+rules:
+  - when:
+      environment: production
+      action: delete
+    effect: require_two_person_approval
+  - when:
+      disk_usage: ">="
+      value: 90
+    effect: deny_large_backup

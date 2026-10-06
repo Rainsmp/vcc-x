@@ -1,0 +1,22 @@
+{
+  "controller": {
+    "name": "vcc-x",
+    "environment": "production",
+    "api_port": 8080
+  },
+  "security": {
+    "require_approval": true,
+    "require_two_person_approval": true,
+    "audit_hash_chain": true,
+    "redact_secrets": true
+  },
+  "fleet": {
+    "default_roles": [
+      "GENERAL"
+    ]
+  },
+  "operations": {
+    "max_parallel_jobs": 4,
+    "max_retries": 3
+  }
+}

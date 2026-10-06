@@ -1,0 +1,12 @@
+{
+  "name": "reconciliation-loop",
+  "sequence": [
+    "observe",
+    "compare",
+    "evaluate_policy",
+    "plan",
+    "approve_if_needed",
+    "apply",
+    "verify"
+  ]
+}
