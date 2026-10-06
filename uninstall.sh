@@ -1,21 +1,36 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly ROOT_DIR
+INSTALL_DIR="${VCC_INSTALL_DIR:-$HOME/.vcc-x}"
 
-main() {
-  echo "This will remove VCC-X project files from: $ROOT_DIR"
-  read -r -p "Continue? [y/N] " response
-  case "$response" in
-    [yY]|[yY][eE][sS])
-      rm -rf "$ROOT_DIR/.install" "$ROOT_DIR/__pycache__" "$ROOT_DIR/tests/__pycache__" 2>/dev/null || true
-      echo "VCC-X uninstall scaffold complete."
-      ;;
+printf '%s\n' "VCC-X Uninstaller"
+printf '%s\n' "Installation: $INSTALL_DIR"
+printf '\n'
+
+if [ ! -d "$INSTALL_DIR" ]; then
+    printf '%s\n' "VCC-X installation not found."
+    exit 0
+fi
+
+# Safety checks: never allow dangerous paths.
+case "$INSTALL_DIR" in
+    ""|"/"|"$HOME"|"$HOME/"|"/home"|"/root")
+        printf '%s\n' "ERROR: Refusing to remove unsafe path: $INSTALL_DIR" >&2
+        exit 1
+        ;;
+esac
+
+printf 'This will permanently remove:\n'
+printf '  %s\n\n' "$INSTALL_DIR"
+
+read -r -p "Continue? [y/N] " response
+
+case "$response" in
+    y|Y|yes|YES|Yes)
+        rm -rf -- "$INSTALL_DIR"
+        printf '\n[VCC-X] Uninstalled successfully.\n'
+        ;;
     *)
-      echo "Uninstall cancelled."
-      ;;
-  esac
-}
-
-main "$@"
+        printf '\n[VCC-X] Uninstall cancelled.\n'
+        ;;
+esac
