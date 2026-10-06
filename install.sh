@@ -35,3 +35,5 @@ case "$SOURCE" in
         printf '[VCC-X] Installation complete.\n'
         ;;
 esac
+
+# VCC-X remote installer support
