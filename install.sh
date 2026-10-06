@@ -1,23 +1,12 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly ROOT_DIR
+ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
-require_command() {
-  command -v "$1" >/dev/null 2>&1 || { echo "Missing required command: $1" >&2; exit 1; }
-}
+printf '[VCC-X] Installing from %s\n' "$ROOT_DIR"
 
-main() {
-  require_command python3
-  if [[ -f "$ROOT_DIR/VERSION" ]]; then
-    echo "Installing VCC-X from $ROOT_DIR"
-  fi
+mkdir -p "$ROOT_DIR/.install"
 
-  install -d "$ROOT_DIR/.install"
-  mkdir -p "$ROOT_DIR/config" "$ROOT_DIR/lib" "$ROOT_DIR/modules" "$ROOT_DIR/database" "$ROOT_DIR/api"
-  chmod 700 "$ROOT_DIR" || true
-  echo "VCC-X installation scaffold complete."
-}
+chmod +x "$ROOT_DIR/vcc" 2>/dev/null || true
 
-main "$@"
+printf '[VCC-X] Installation complete.\n'
